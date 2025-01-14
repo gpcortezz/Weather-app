@@ -1,4 +1,6 @@
-const apiKey = 'ABaBjXH1Xky0i6Nih8JxhT61DEmnQFYo';
+// const apiKey = 'ABaBjXH1Xky0i6Nih8JxhT61DEmnQFYo';
+// const apiKey = 'ABaBjXH1Xky0i6Nih8JxhT61DEmnQFYo';
+const apiKey = 'WUFQ04N3aLxJw5oxoETA7uUwhJeklIhi';
 const locationContainer = document.querySelector('.location');
 const weatherTemplate = document.querySelector('#weather-template');
 const forecastContainer = document.querySelector('.forecast');
