@@ -1,0 +1,156 @@
+/* General styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    color: #333;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 15px 0;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.location {
+    margin: 10px auto;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    font-size: 1rem;
+}
+
+.temperature-selection {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.temperature-selection button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    background: #4a90e2;
+    transition: 0.3s ease;
+}
+
+.temperature-selection button:hover {
+    background: #357ab8;
+}
+
+.temperature-selection button.active {
+    background: #357ab8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Forecast container */
+.forecast {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 90%;
+    margin: auto;
+}
+
+.forecast-day {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.forecast-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+}
+
+.day-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.temperature {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.condition {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .forecast {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .forecast-day {
+        width: 200px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .temperature-selection button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .forecast-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .day-name {
+        font-size: 1rem;
+    }
+
+    .date {
+        font-size: 0.8rem;
+    }
+
+    .temperature {
+        font-size: 0.9rem;
+    }
+}
