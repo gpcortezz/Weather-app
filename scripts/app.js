@@ -5,7 +5,7 @@ const forecastContainer = document.querySelector('.forecast');
 const fahrenheitButton = document.getElementById('fahrenheit');
 const celsiusButton = document.getElementById('celsius');
 
-let isCelsius = true;
+let isCelsius = true; 
 let cachedForecastData = null; 
 
 async function getFiveDayForecast(locationKey) {
