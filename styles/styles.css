@@ -3,14 +3,16 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #74ebd5, #9face6);
+    background: #bcf0f6;
     color: #333;
     text-align: center;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+  }
+  
 
 header {
     background-color: #4a90e2;
@@ -71,58 +73,63 @@ header h1 {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Forecast container */
+
 .forecast {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 90%;
-    margin: auto;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 20px;
 }
-
-.forecast-day {
+  
+  .forecast-day {
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
+  }
+  
+  .forecast-day .left-column,
+  .forecast-day .right-column {
+    flex: 1; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.forecast-icon {
-    max-width: 100%;
-    max-height: 100%;
+  }
+  
+  .forecast-icon {
+    max-width: 60px;
+    max-height: 60px;
     margin-bottom: 8px;
-}
-
-.day-name {
+  }
+  
+  .day-name {
     font-size: 1.1rem;
     font-weight: bold;
-    margin-bottom: 4px;
-}
-
-.date {
+  }
+  
+  .date {
     font-size: 0.9rem;
     color: #666;
-    margin-bottom: 8px;
-}
-
-.temperature {
+  }
+  
+  .temperature {
     font-size: 1rem;
     font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.condition {
+  }
+  
+  .condition {
     font-size: 0.9rem;
     color: #555;
-}
+  }
+
 
 /* Responsive Design */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .forecast {
         flex-direction: row;
         flex-wrap: wrap;
@@ -130,7 +137,7 @@ header h1 {
     }
 
     .forecast-day {
-        width: 200px;
+        width: 400px;
         margin: auto;
     }
 }
