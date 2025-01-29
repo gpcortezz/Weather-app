@@ -35,12 +35,12 @@ header h1 {
 
 /* Ubicación */
 .location {
-    padding: 12px;
+    padding: 2px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -89,9 +89,10 @@ header h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, all 0.3s ease;
 }
 
+/* Efecto hover en escritorio */
 .forecast-day:hover {
     transform: translateY(-5px);
 }
@@ -124,7 +125,9 @@ header h1 {
     color: #555;
 }
 
-/* Responsive */
+/* 🌐 Responsive Design */
+
+/* 🔹 En tablets, reducimos un poco las tarjetas */
 @media (max-width: 768px) {
     .container {
         width: 90%;
@@ -134,8 +137,18 @@ header h1 {
     .forecast {
         grid-template-columns: 1fr;
     }
+
+    .forecast-day {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    .forecast-icon {
+        max-width: 55px;
+    }
 }
 
+/* 🔹 En móviles pequeños, las tarjetas se hacen más compactas */
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.5rem;
@@ -146,7 +159,24 @@ header h1 {
         font-size: 0.9rem;
     }
 
+    .forecast-day {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
     .forecast-icon {
-        max-width: 60px;
+        max-width: 45px;
+    }
+
+    .day-name {
+        font-size: 1rem;
+    }
+
+    .date {
+        font-size: 0.8rem;
+    }
+
+    .temperature {
+        font-size: 1.1rem;
     }
 }
