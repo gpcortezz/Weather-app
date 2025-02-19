@@ -1,4 +1,5 @@
 const shellCache = 'shell-cache-v1';
+const dynamicCache = 'dynamic-cache-v1';
 const assets = [
     '/',
     '/index.html',
@@ -15,13 +16,14 @@ const assets = [
     '/images/icons/icon-152x152.png',
     '/images/icons/icon-192x192.png',
     '/images/icons/icon-384x384.png',
-    '/images/icons/icon-512x512.png'
+    '/images/icons/icon-512x512.png',
+    '/pages/fallback.html'
 ];
 
 // install event
 self.addEventListener('install', event => {
     console.log('Service worker installing...', event);
-
+ //
     //pre cache shell assets
     console.log('Caching shell assets...');
     event.waitUntil(
@@ -40,7 +42,7 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
                 return Promise.all(keys
-                    .filter(key => key !== shellCache)
+                    .filter(key => key !== shellCache && key !== dynamicCache)
                     .map(key => caches.delete(key))
                 );
             }
@@ -56,8 +58,18 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(cacheResponse => {
-                    return cacheResponse || fetch(event.request);
+                    return cacheResponse || fetch(event.request)
+                    .then(fetchResponse => {
+                        return caches.open(dynamicCache)
+                            .then(cache => {
+                                cache.put(event.request.url, fetchResponse.clone());
+                                return fetchResponse;
+                            });
+                    })
                 }
             )
+            .catch( () => {
+                return caches.match('/pages/fallback.html');
+            })
     );
 });
