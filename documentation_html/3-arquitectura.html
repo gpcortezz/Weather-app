@@ -1,0 +1,27 @@
+<meta charset="UTF-8">
+<h2>3.1. Diseño General:</h2>
+<p>Aplicación web progresiva (PWA) con arquitectura cliente-servidor. El frontend se comunica con una API externa para obtener datos meteorológicos.</p>
+
+<h2>3.2. Capas y Módulos:</h2>
+<ul>
+    <li>Presentación: HTML/CSS</li>
+    <li>Lógica de negocio: JavaScript (app.js, forecast.js, location.js)</li>
+    <li>Servicio: API externa para datos meteorológicos</li>
+    <li>Persistencia: Cache API para soporte offline</li>
+</ul>
+
+<h2>3.3. Patrones de Diseño:</h2>
+<ul>
+    <li>Módulos ES6 para organización del código</li>
+    <li>Service Worker para caché y soporte offline</li>
+    <li>Singleton para el manejo del estado de la aplicación</li>
+</ul>
+
+<h2>3.4. Flujo de Datos Principal:</h2>
+<ol>
+    <li>El usuario accede a la aplicación</li>
+    <li>Se obtiene la ubicación del dispositivo</li>
+    <li>Se consulta la API meteorológica con las coordenadas</li>
+    <li>Se muestran los datos procesados al usuario</li>
+    <li>Los datos se almacenan en caché para uso offline</li>
+</ol>
