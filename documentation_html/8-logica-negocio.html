@@ -1,0 +1,28 @@
+<meta charset="UTF-8">
+<h2>8.1. Flujos de Trabajo Importantes:</h2>
+<ol>
+    <li>Obtención de ubicación del usuario</li>
+    <li>Consulta a API meteorológica</li>
+    <li>Procesamiento y visualización de datos</li>
+    <li>Conversión de unidades de temperatura</li>
+    <li>Manejo de caché para funcionamiento offline</li>
+</ol>
+
+<h2>8.2. Componentes Clave Involucrados:</h2>
+<ul>
+    <li><strong>app.js</strong>: Coordina el flujo principal</li>
+    <li><strong>location.js</strong>: Maneja la geolocalización</li>
+    <li><strong>forecast.js</strong>: Gestiona la visualización del pronóstico</li>
+    <li><strong>api.js</strong>: Comunica con la API externa</li>
+    <li><strong>menu.js</strong>: Controla la navegación</li>
+</ul>
+
+<h2>8.3. Explicación del Patrón MVC:</h2>
+<h3>Controladores (C):</h3>
+<p>Los scripts JavaScript (app.js, menu.js) actúan como controladores manejando la interacción del usuario y coordinando las vistas y modelos.</p>
+
+<h3>Modelos (M):</h3>
+<p>api.js y los datos obtenidos de la API meteorológica actúan como modelo de datos.</p>
+
+<h3>Vistas/Componentes Frontend (V):</h3>
+<p>Los archivos HTML y CSS proveen la capa de presentación.</p>
