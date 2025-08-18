@@ -1,0 +1,16 @@
+<meta charset="UTF-8">
+<h2>7.1. Visión General de la API:</h2>
+<p>La aplicación utiliza la API de AccuWeather para obtener datos de ubicación y pronóstico del tiempo.</p>
+
+<h2>7.2. Lista de Endpoints:</h2>
+<ul>
+    <li>Obtener ubicación por coordenadas</li>
+    <li>Obtener pronóstico por locationKey</li>
+</ul>
+
+<h2>7.3. Detalle de Endpoints Clave:</h2>
+<pre><code>// Obtener ubicación
+${config.api.baseUrl}${config.endpoints.location}?apikey=${config.api.key}&q=${lat},${lon}
+
+// Obtener pronóstico
+${config.api.baseUrl}${config.endpoints.forecast}/${locationKey}?apikey=${config.api.key}&metric=${isCelsius}</code></pre>
