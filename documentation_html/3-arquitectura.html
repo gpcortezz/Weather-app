@@ -1,0 +1,27 @@
+<meta charset="UTF-8">
+<h2>3.1. Diseño General:</h2>
+<p>Arquitectura de aplicación web del lado del cliente (frontend) con enfoque en Progressive Web App. La aplicación se ejecuta completamente en el navegador y consume APIs externas para obtener datos meteorológicos.</p>
+
+<h2>3.2. Capas y Módulos:</h2>
+<ul>
+    <li><strong>Capa de Presentación:</strong> HTML templates y páginas (index.html, pages/*.html)</li>
+    <li><strong>Capa de Lógica:</strong> Módulos JavaScript (scripts/app.js, scripts/api.js, scripts/forecast.js, scripts/location.js, scripts/menu.js)</li>
+    <li><strong>Capa de Servicios:</strong> Service Workers para funcionalidad offline</li>
+    <li><strong>Capa de Datos:</strong> APIs externas de servicios meteorológicos</li>
+</ul>
+
+<h2>3.3. Patrones de Diseño:</h2>
+<ul>
+    <li>Módulos ES6 para separación de responsabilidades</li>
+    <li>Patrón MVC (Model-View-Controller) implícito en la estructura</li>
+    <li>Service Worker para patrón de caching y offline first</li>
+</ul>
+
+<h2>3.4. Flujo de Datos Principal:</h2>
+<ol>
+    <li>Usuario accede a la aplicación</li>
+    <li>Se obtiene la ubicación del usuario mediante Geolocation API</li>
+    <li>Se realiza petición a API meteorológica externa con las coordenadas</li>
+    <li>Se procesan y muestran los datos en la interfaz</li>
+    <li>Service Worker cachea recursos para funcionamiento offline</li>
+</ol>

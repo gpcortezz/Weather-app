@@ -1,0 +1,329 @@
+<meta charset="UTF-8">
+<h2>7.1. Visión General de la API:</h2>
+<p>La aplicación Weather-app es una Progressive Web App (PWA) que consume APIs externas de servicios meteorológicos para proporcionar información del clima. La aplicación funciona principalmente en el lado del cliente (frontend) utilizando JavaScript ES6, Service Workers, y APIs modernas del navegador como Geolocation API y Fetch API.</p>
+
+<p><strong>Tecnologías principales:</strong> HTML5, CSS3, JavaScript ES6, Service Workers, PWA, Geolocation API, Fetch API</p>
+
+<p><strong>APIs externas consumidas:</strong> La aplicación se conecta con servicios meteorológicos externos a través del archivo config.js que contiene la configuración de la API externa.</p>
+
+<p><strong>Autenticación:</strong> No se implementa autenticación de usuarios ya que es una aplicación de frontend que consume APIs públicas.</p>
+
+<p><strong>Documentación de API:</strong> No se encontró documentación Swagger/OpenAPI integrada. La aplicación utiliza APIs externas cuyos endpoints se gestionan a través del archivo config.js.</p>
+
+<h2>7.2. Lista Completa de Endpoints:</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+<thead>
+<tr style="background-color: #f2f2f2;">
+<th>Método HTTP</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Controlador/Componente</th>
+<th>Autenticación Requerida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/ (raíz)</td>
+<td>Página principal con información meteorológica</td>
+<td>index.html + scripts/app.js</td>
+<td>No</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/about</td>
+<td>Página de información sobre la aplicación</td>
+<td>pages/about.html</td>
+<td>No</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/contact</td>
+<td>Página de contacto</td>
+<td>pages/contact.html</td>
+<td>No</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/settings</td>
+<td>Página de configuración de la aplicación</td>
+<td>pages/settings.html + scripts/menu.js</td>
+<td>No</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/fallback</td>
+<td>Página de respaldo para cuando no hay conexión</td>
+<td>pages/fallback.html</td>
+<td>No</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>API Externa (config.js)</td>
+<td>Endpoint externo para datos meteorológicos</td>
+<td>scripts/api.js</td>
+<td>API Key (externa)</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>Geolocation API</td>
+<td>API del navegador para obtener ubicación</td>
+<td>scripts/location.js</td>
+<td>Permisos del navegador</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>Forecast Data</td>
+<td>Datos de pronóstico meteorológico</td>
+<td>scripts/forecast.js</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+<h2>7.3. Detalle de Endpoints Clave:</h2>
+
+<h3>Endpoint: API Externa de Clima (a través de config.js)</h3>
+<p><strong>Descripción:</strong> Endpoint principal que consume datos de servicios meteorológicos externos</p>
+
+<h4>Parámetros de Entrada:</h4>
+<table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+<thead>
+<tr style="background-color: #f2f2f2;">
+<th>Parámetro</th>
+<th>Tipo</th>
+<th>Descripción</th>
+<th>Obligatorio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lat</td>
+<td>Number</td>
+<td>Latitud de la ubicación</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>lon</td>
+<td>Number</td>
+<td>Longitud de la ubicación</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>units</td>
+<td>String</td>
+<td>Unidades de medida (métrico/imperial)</td>
+<td>No (default: métrico)</td>
+</tr>
+<tr>
+<td>lang</td>
+<td>String</td>
+<td>Idioma para las descripciones</td>
+<td>No (default: en)</td>
+</tr>
+<tr>
+<td>apiKey</td>
+<td>String</td>
+<td>Clave de API para el servicio externo</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table>
+
+<h4>Ejemplo de Request:</h4>
+<pre><code>// Desde JavaScript usando Fetch API
+fetch(`https://api.weatherservice.com/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Éxito - 200 OK):</h4>
+<pre><code>{
+  "coord": {
+    "lon": -58.3772,
+    "lat": -34.6132
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "cielo claro",
+      "icon": "01d"
+    }
+  ],
+  "main": {
+    "temp": 25.6,
+    "feels_like": 26.2,
+    "temp_min": 24.0,
+    "temp_max": 27.3,
+    "pressure": 1013,
+    "humidity": 65
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 3.6,
+    "deg": 150
+  },
+  "clouds": {
+    "all": 0
+  },
+  "dt": 1678901234,
+  "sys": {
+    "type": 2,
+    "id": 2009553,
+    "country": "AR",
+    "sunrise": 1678865432,
+    "sunset": 1678909876
+  },
+  "timezone": -10800,
+  "id": 3435910,
+  "name": "Buenos Aires",
+  "cod": 200
+}
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Error - 401 Unauthorized):</h4>
+<pre><code>{
+  "cod": 401,
+  "message": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."
+}
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Error - 404 Not Found):</h4>
+<pre><code>{
+  "cod": "404",
+  "message": "city not found"
+}
+</code></pre>
+
+<h4>Notas Adicionales:</h4>
+<ul>
+<li>La API key se configura en el archivo config.js</li>
+<li>La aplicación utiliza Service Workers para cachear respuestas y funcionar offline</li>
+<li>Se requiere permiso del usuario para acceder a la geolocalización</li>
+<li>Las unidades por defecto son métricas (temperatura en Celsius)</li>
+</ul>
+
+<h3>Endpoint: Geolocation API del Navegador</h3>
+<p><strong>Descripción:</strong> API nativa del navegador para obtener la ubicación del usuario</p>
+
+<h4>Parámetros de Entrada:</h4>
+<table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+<thead>
+<tr style="background-color: #f2f2f2;">
+<th>Parámetro</th>
+<th>Tipo</th>
+<th>Descripción</th>
+<th>Obligatorio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enableHighAccuracy</td>
+<td>Boolean</td>
+<td>Precisión alta de ubicación</td>
+<td>No (default: false)</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>Number</td>
+<td>Tiempo máximo de espera (ms)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>maximumAge</td>
+<td>Number</td>
+<td>Edad máxima de la ubicación cacheada (ms)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+<h4>Ejemplo de Request:</h4>
+<pre><code>// Uso de la Geolocation API
+navigator.geolocation.getCurrentPosition(
+  (position) => {
+    const { latitude, longitude } = position.coords;
+    console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
+  },
+  (error) => {
+    console.error('Error obteniendo ubicación:', error.message);
+  },
+  {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 60000
+  }
+);
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Éxito):</h4>
+<pre><code>{
+  "coords": {
+    "latitude": -34.6132,
+    "longitude": -58.3772,
+    "altitude": null,
+    "accuracy": 20,
+    "altitudeAccuracy": null,
+    "heading": null,
+    "speed": null
+  },
+  "timestamp": 1678901234567
+}
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Error):</h4>
+<pre><code>// Error object con código y mensaje
+{
+  "code": 1, // PERMISSION_DENIED
+  "message": "User denied Geolocation"
+}
+</code></pre>
+
+<h4>Notas Adicionales:</h4>
+<ul>
+<li>Requiere permiso explícito del usuario</li>
+<li>Los códigos de error: 1 (Permiso denegado), 2 (Posición no disponible), 3 (Timeout)</li>
+<li>La precisión varía según el dispositivo y conexión</li>
+</ul>
+
+<h3>Endpoint: Configuración de la Aplicación (/settings)</h3>
+<p><strong>Descripción:</strong> Página para configurar preferencias de la aplicación</p>
+
+<h4>Parámetros de Entrada:</h4>
+<p>Este endpoint recibe datos a través del localStorage del navegador:</p>
+<ul>
+<li><strong>temperatureUnit:</strong> String - Unidad de temperatura ("celsius" o "fahrenheit")</li>
+<li><strong>language:</strong> String - Idioma preferido</li>
+<li><strong>notifications:</strong> Boolean - Habilitar/deshabilitar notificaciones</li>
+<li><strong>refreshInterval:</strong> Number - Intervalo de actualización en minutos</li>
+</ul>
+
+<h4>Ejemplo de Request (Guardar configuración):</h4>
+<pre><code>// Al guardar configuración en settings.html
+localStorage.setItem('weatherAppSettings', JSON.stringify({
+  temperatureUnit: 'celsius',
+  language: 'es',
+  notifications: true,
+  refreshInterval: 30
+}));
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Éxito):</h4>
+<pre><code>// La configuración se guarda exitosamente en localStorage
+// No hay respuesta HTTP, solo confirmación visual en la UI
+</code></pre>
+
+<h4>Ejemplo de Respuesta (Error):</h4>
+<pre><code>// Error al guardar en localStorage (cuota excedida)
+Error: Failed to execute 'setItem' on 'Storage': Setting the value of 'weatherAppSettings' exceeded the quota.
+</code></pre>
+
+<h4>Notas Adicionales:</h4>
+<ul>
+<li>Los datos se persisten localmente usando localStorage</li>
+<li>La configuración afecta cómo se muestran los datos meteorológicos</li>
+<li>Los cambios se aplican inmediatamente sin necesidad de recargar la página</li>
+</ul>
