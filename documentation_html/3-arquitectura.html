@@ -1,0 +1,28 @@
+<meta charset="UTF-8">
+<h2>3.1. Diseño General:</h2>
+<p>La aplicación sigue una arquitectura de aplicación web progresiva (PWA) con enfoque en el frontend. La arquitectura se basa en componentes JavaScript modulares que interactúan con APIs externas y APIs nativas del navegador.</p>
+
+<h2>3.2. Capas y Módulos:</h2>
+<ul>
+    <li><strong>Capa de Presentación:</strong> Templates HTML y estilos CSS</li>
+    <li><strong>Capa de Lógica de Aplicación:</strong> Módulos JavaScript (app.js, api.js, forecast.js, location.js, menu.js)</li>
+    <li><strong>Capa de Servicios:</strong> Service Worker para funcionalidades offline</li>
+    <li><strong>Capa de Datos:</strong> AccuWeather API como fuente externa de datos</li>
+</ul>
+
+<h2>3.3. Patrones de Diseño:</h2>
+<ul>
+    <li><strong>Módulo:</strong> Organización del código en módulos JavaScript separados</li>
+    <li><strong>Service Worker:</strong> Para caching y funcionalidades offline</li>
+    <li><strong>API Client:</strong> Módulo dedicado para comunicación con APIs externas</li>
+</ul>
+
+<h2>3.4. Flujo de Datos Principal:</h2>
+<ol>
+    <li>El usuario accede a la aplicación</li>
+    <li>La aplicación solicita permisos de geolocalización</li>
+    <li>Se obtiene la ubicación del usuario mediante Geolocation API</li>
+    <li>Se consulta la API de AccuWeather con la ubicación obtenida</li>
+    <li>Se procesan y muestran los datos meteorológicos</li>
+    <li>El Service Worker cachea recursos para funcionamiento offline</li>
+</ol>

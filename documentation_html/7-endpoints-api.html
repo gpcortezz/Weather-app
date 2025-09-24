@@ -1,0 +1,297 @@
+<meta charset="UTF-8">
+<h2>7.1. Visión General de la API:</h2>
+<p>La aplicación Weather-app es una Progressive Web App (PWA) que consume la API externa de AccuWeather para proporcionar información meteorológica. La aplicación utiliza JavaScript del lado del cliente para realizar llamadas a la API de AccuWeather y no implementa un backend propio con endpoints REST tradicionales.</p>
+
+<p><strong>Características principales de la API:</strong></p>
+<ul>
+    <li>Consumo exclusivo de la API externa de AccuWeather</li>
+    <li>Implementación frontend con JavaScript ES6+</li>
+    <li>Uso de Fetch API para las solicitudes HTTP</li>
+    <li>Integración con Geolocation API del navegador</li>
+    <li>Arquitectura basada en Service Workers para funcionalidad PWA</li>
+    <li>No requiere autenticación propia (la autenticación se maneja mediante API key de AccuWeather)</li>
+</ul>
+
+<h2>7.2. Lista Completa de Endpoints:</h2>
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Endpoint</th>
+            <th>Método HTTP</th>
+            <th>Descripción</th>
+            <th>Base URL</th>
+            <th>Autenticación</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>AccuWeather Location Search</td>
+            <td>GET</td>
+            <td>Busca ubicaciones basadas en coordenadas geográficas o nombre de ciudad</td>
+            <td>http://dataservice.accuweather.com/locations/v1</td>
+            <td>API Key (AccuWeather)</td>
+        </tr>
+        <tr>
+            <td>AccuWeather Forecast</td>
+            <td>GET</td>
+            <td>Obtiene el pronóstico meteorológico para una ubicación específica</td>
+            <td>http://dataservice.accuweather.com/forecasts/v1</td>
+            <td>API Key (AccuWeather)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>7.3. Detalle de Endpoints Clave:</h2>
+
+<h3>Endpoint: AccuWeather Location Search</h3>
+<p><strong>Descripción:</strong> Este endpoint permite buscar ubicaciones utilizando coordenadas geográficas (latitud/longitud) o nombre de ciudad para obtener el location key necesario para consultar el pronóstico.</p>
+
+<h4>Parámetros de Entrada:</h4>
+<table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th>Parámetro</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Obligatorio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>apikey</td>
+            <td>string</td>
+            <td>API Key de AccuWeather para autenticación</td>
+            <td>Sí</td>
+        </tr>
+        <tr>
+            <td>q</td>
+            <td>string</td>
+            <td>Consulta de búsqueda (nombre de ciudad o coordenadas)</td>
+            <td>Sí</td>
+        </tr>
+        <tr>
+            <td>language</td>
+            <td>string</td>
+            <td>Idioma de la respuesta (ej: es-ES, en-US)</td>
+            <td>No</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Ejemplo de Request:</h4>
+<pre><code>// Búsqueda por coordenadas
+GET http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=TU_API_KEY&q=40.7128,-74.0060
+
+// Búsqueda por nombre de ciudad
+GET http://dataservice.accuweather.com/locations/v1/cities/search?apikey=TU_API_KEY&q=New York</code></pre>
+
+<h4>Ejemplo de Respuesta (Éxito - 200 OK):</h4>
+<pre><code>{
+    "Version": 1,
+    "Key": "349727",
+    "Type": "City",
+    "Rank": 10,
+    "LocalizedName": "New York",
+    "EnglishName": "New York",
+    "PrimaryPostalCode": "10001",
+    "Region": {
+        "ID": "NAM",
+        "LocalizedName": "North America",
+        "EnglishName": "North America"
+    },
+    "Country": {
+        "ID": "US",
+        "LocalizedName": "United States",
+        "EnglishName": "United States"
+    },
+    "AdministrativeArea": {
+        "ID": "NY",
+        "LocalizedName": "New York",
+        "EnglishName": "New York",
+        "Level": 1,
+        "LocalizedType": "State",
+        "EnglishType": "State",
+        "CountryID": "US"
+    },
+    "TimeZone": {
+        "Code": "EST",
+        "Name": "America/New_York",
+        "GmtOffset": -5,
+        "IsDaylightSaving": false,
+        "NextOffsetChange": "2024-03-10T07:00:00Z"
+    },
+    "GeoPosition": {
+        "Latitude": 40.714,
+        "Longitude": -74.006,
+        "Elevation": {
+            "Metric": {
+                "Value": 57,
+                "Unit": "m",
+                "UnitType": 5
+            },
+            "Imperial": {
+                "Value": 187,
+                "Unit": "ft",
+                "UnitType": 0
+            }
+        }
+    }
+}</code></pre>
+
+<h4>Ejemplo de Respuesta (Error - 401 Unauthorized):</h4>
+<pre><code>{
+    "Code": "Unauthorized",
+    "Message": "Api Authorization failed",
+    "Reference": "/locations/v1/cities/search"
+}</code></pre>
+
+<h4>Notas Adicionales:</h4>
+<ul>
+    <li>El location key obtenido en la respuesta es necesario para consultar el pronóstico meteorológico</li>
+    <li>AccuWeather tiene límites de uso según el tipo de cuenta (free vs paid)</li>
+    <li>Las coordenadas deben estar en formato "lat,lon"</li>
+</ul>
+
+<h3>Endpoint: AccuWeather Forecast</h3>
+<p><strong>Descripción:</strong> Este endpoint proporciona el pronóstico meteorológico detallado para una ubicación específica utilizando el location key obtenido del endpoint de búsqueda.</p>
+
+<h4>Parámetros de Entrada:</h4>
+<table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th>Parámetro</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Obligatorio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>apikey</td>
+            <td>string</td>
+            <td>API Key de AccuWeather para autenticación</td>
+            <td>Sí</td>
+        </tr>
+        <tr>
+            <td>locationKey</td>
+            <td>string</td>
+            <td>Clave de ubicación obtenida del endpoint de búsqueda</td>
+            <td>Sí</td>
+        </tr>
+        <tr>
+            <td>language</td>
+            <td>string</td>
+            <td>Idioma de la respuesta (ej: es-ES, en-US)</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>details</td>
+            <td>boolean</td>
+            <td>Incluir detalles adicionales del pronóstico</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>metric</td>
+            <td>boolean</td>
+            <td>Usar unidades métricas (true) o imperiales (false)</td>
+            <td>No</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Ejemplo de Request:</h4>
+<pre><code>// Pronóstico de 1 día
+GET http://dataservice.accuweather.com/forecasts/v1/daily/1day/349727?apikey=TU_API_KEY&metric=true
+
+// Pronóstico de 5 días
+GET http://dataservice.accuweather.com/forecasts/v1/daily/5day/349727?apikey=TU_API_KEY&metric=true</code></pre>
+
+<h4>Ejemplo de Respuesta (Éxito - 200 OK):</h4>
+<pre><code>{
+    "Headline": {
+        "EffectiveDate": "2024-01-15T08:00:00-05:00",
+        "EffectiveEpochDate": 1705320000,
+        "Severity": 5,
+        "Text": "Expect showers Monday",
+        "Category": "rain",
+        "EndDate": "2024-01-15T20:00:00-05:00",
+        "EndEpochDate": 1705363200,
+        "MobileLink": "http://www.accuweather.com/en/us/new-york-ny/10007/daily-weather-forecast/349727?lang=en-us",
+        "Link": "http://www.accuweather.com/en/us/new-york-ny/10007/daily-weather-forecast/349727?lang=en-us"
+    },
+    "DailyForecasts": [
+        {
+            "Date": "2024-01-15T07:00:00-05:00",
+            "EpochDate": 1705316400,
+            "Temperature": {
+                "Minimum": {
+                    "Value": 4.2,
+                    "Unit": "C",
+                    "UnitType": 17
+                },
+                "Maximum": {
+                    "Value": 8.1,
+                    "Unit": "C",
+                    "UnitType": 17
+                }
+            },
+            "Day": {
+                "Icon": 13,
+                "IconPhrase": "Mostly cloudy w/ showers",
+                "HasPrecipitation": true,
+                "PrecipitationType": "Rain",
+                "PrecipitationIntensity": "Light"
+            },
+            "Night": {
+                "Icon": 36,
+                "IconPhrase": "Intermittent clouds",
+                "HasPrecipitation": false
+            },
+            "Sources": ["AccuWeather"],
+            "MobileLink": "http://www.accuweather.com/en/us/new-york-ny/10007/daily-weather-forecast/349727?day=1&lang=en-us",
+            "Link": "http://www.accuweather.com/en/us/new-york-ny/10007/daily-weather-forecast/349727?day=1&lang=en-us"
+        }
+    ]
+}</code></pre>
+
+<h4>Ejemplo de Respuesta (Error - 404 Not Found):</h4>
+<pre><code>{
+    "Code": "NotFound",
+    "Message": "No forecast found for the given location key",
+    "Reference": "/forecasts/v1/daily/1day/999999"
+}</code></pre>
+
+<h4>Notas Adicionales:</h4>
+<ul>
+    <li>El endpoint soporta pronósticos de 1 día, 5 días, 10 días y 15 días</li>
+    <li>Las unidades métricas/imperiales se controlan con el parámetro "metric"</li>
+    <li>El location key debe ser válido y corresponder a una ubicación soportada por AccuWeather</li>
+    <li>Las respuestas incluyen información detallada sobre temperatura, condiciones climáticas y precipitaciones</li>
+</ul>
+
+<h3>Implementación en la Aplicación:</h3>
+<p>La aplicación Weather-app implementa estos endpoints a través de los siguientes módulos JavaScript:</p>
+
+<ul>
+    <li><strong>scripts/api.js</strong>: Maneja las llamadas HTTP a la API de AccuWeather</li>
+    <li><strong>scripts/location.js</strong>: Gestiona la obtención de la ubicación del usuario</li>
+    <li><strong>scripts/forecast.js</strong>: Procesa y muestra los datos del pronóstico</li>
+</ul>
+
+<p><strong>Ejemplo de implementación en código:</strong></p>
+<pre><code>// En scripts/api.js
+async function getWeatherData(locationKey) {
+    const apiKey = config.accuWeatherApiKey;
+    const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=true`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        throw error;
+    }
+}</code></pre>
